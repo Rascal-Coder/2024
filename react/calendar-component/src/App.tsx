@@ -4,7 +4,7 @@ import Calendar from "./Calendar";
 function App() {
   return (
     <div className="App">
-      <Calendar value={dayjs("2024-03-20")}></Calendar>
+      <Calendar value={dayjs("2024-03-20")} locale="zh-CN"></Calendar>
     </div>
   );
 }

@@ -3,37 +3,11 @@ import { CalendarProps } from ".";
 import LocaleContext from "./LocaleContext";
 import { useContext } from "react";
 import cs from "classnames";
-import { useLocale } from "./useLocale";
+import { useLocale } from "./hooks";
+import { weekList, getAllDays, DayCell } from "./shared";
 interface MonthCalendarProps extends CalendarProps {
   selectHandler?: (date: Dayjs) => void;
   curMonth: Dayjs;
-}
-
-function getAllDays(date: Dayjs) {
-  const startDate = date.startOf("month");
-  const day = startDate.day();
-
-  const daysInfo: Array<{ date: Dayjs; currentMonth: boolean }> = new Array(
-    6 * 7
-  );
-
-  for (let i = 0; i < day; i++) {
-    daysInfo[i] = {
-      date: startDate.subtract(day - i, "day"),
-      currentMonth: false,
-    };
-  }
-
-  for (let i = day; i < daysInfo.length; i++) {
-    const calcDate = startDate.add(i - day, "day");
-
-    daysInfo[i] = {
-      date: calcDate,
-      currentMonth: calcDate.month() === date.month(),
-    };
-  }
-
-  return daysInfo;
 }
 
 function MonthCalendar(props: MonthCalendarProps) {
@@ -42,19 +16,9 @@ function MonthCalendar(props: MonthCalendarProps) {
   const { value, curMonth, dateRender, dateInnerContent, selectHandler } =
     props;
 
-  const weekList = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-  ];
-
   const allDays = getAllDays(curMonth);
 
-  function renderDays(days: Array<{ date: Dayjs; currentMonth: boolean }>) {
+  function renderDays(days: Array<DayCell>) {
     const rows = [];
     for (let i = 0; i < 6; i++) {
       const row = [];
@@ -95,8 +59,11 @@ function MonthCalendar(props: MonthCalendarProps) {
       rows.push(row);
     }
     return rows.map((row, index) => {
-
-      return <div key={index} className="calendar-month-body-row">{row}</div>;
+      return (
+        <div key={index} className="calendar-month-body-row">
+          {row}
+        </div>
+      );
     });
   }
 

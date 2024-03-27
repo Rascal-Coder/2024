@@ -1,4 +1,4 @@
-import allLocales from "./locale";
+import allLocales from "../locale";
 export const useLocale = (selectedLocale: string) => {
   const allLocalesKeys = Object.keys(allLocales);
   if (!allLocalesKeys.includes(selectedLocale)) {
